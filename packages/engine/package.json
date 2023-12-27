@@ -1,0 +1,12 @@
+{
+  "name": "@samuel-lewis/engine",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "phaser": "^3.70.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "@samuel-lewis/eslint-config": "workspace:*"
+  }
+}

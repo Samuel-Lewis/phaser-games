@@ -1,0 +1,13 @@
+{
+  "name": "@samuel-lewis/game-template",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@samuel-lewis/engine": "workspace:*",
+    "phaser": "^3.70.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "@samuel-lewis/eslint-config": "workspace:*"
+  }
+}

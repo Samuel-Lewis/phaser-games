@@ -1,5 +1,5 @@
 {
-  "name": "@repo/eslint-config",
+  "name": "@samuel-lewis/eslint-config",
   "version": "0.0.0",
   "private": true,
   "files": [
@@ -8,6 +8,7 @@
     "react-internal.js"
   ],
   "devDependencies": {
+    "eslint-config-samuel-lewis": "^0.6.0",
     "@vercel/style-guide": "^5.1.0",
     "eslint-config-turbo": "^1.10.12",
     "eslint-config-prettier": "^9.0.0",

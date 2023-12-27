@@ -1,9 +1,9 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   root: true,
-  extends: ["@repo/eslint-config/react-internal.js"],
+  extends: ["@samuel-lewis/eslint-config/library.js"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: "./tsconfig.lint.json",
+    project: true,
   },
 };
