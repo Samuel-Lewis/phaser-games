@@ -2,6 +2,7 @@ import Phaser from "phaser";
 
 export class Game {
   constructor(
+    public slug: string,
     public name: string,
     public config: Phaser.Types.Core.GameConfig
   ) {}

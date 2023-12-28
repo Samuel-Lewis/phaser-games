@@ -5,8 +5,12 @@
   align-items: center;
   height: 100%;
   width: 100%;
+
+  background: black;
+  color: white;
 }
 
-.canvas {
-  margin: 16px;
+.body {
+  background: black;
+  color: white;
 }

@@ -5,11 +5,11 @@ const project = resolve(process.cwd(), "tsconfig.json");
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   extends: [
+    "samuel-lewis",
     "eslint:recommended",
     "prettier",
     require.resolve("@vercel/style-guide/eslint/next"),
     "eslint-config-turbo",
-    "samuel-lewis",
   ],
   globals: {
     React: true,

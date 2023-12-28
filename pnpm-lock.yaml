@@ -26,6 +26,9 @@ importers:
       '@samuel-lewis/engine':
         specifier: workspace:*
         version: link:../../packages/engine
+      '@samuel-lewis/game-dots':
+        specifier: workspace:*
+        version: link:../../packages/game-dots
       '@samuel-lewis/game-template':
         specifier: workspace:*
         version: link:../../packages/game-template
@@ -103,6 +106,25 @@ importers:
       eslint-plugin-only-warn:
         specifier: ^1.1.0
         version: 1.1.0
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
+  packages/game-dots:
+    dependencies:
+      '@samuel-lewis/engine':
+        specifier: workspace:*
+        version: link:../engine
+      phaser:
+        specifier: ^3.70.0
+        version: 3.70.0
+      ts-perlin-simplex:
+        specifier: ^0.0.3
+        version: 0.0.3
+    devDependencies:
+      '@samuel-lewis/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
@@ -3527,6 +3549,10 @@ packages:
     dependencies:
       typescript: 5.2.2
     dev: true
+
+  /ts-perlin-simplex@0.0.3:
+    resolution: {integrity: sha512-9omqbquDWAATiU+l4enWBQ0TShxgDNUV/+MjJM8fNaY1ap1fTkXFI/81JON0Vnvw38xhEYx02QgJsnL+bQ0ijA==}
+    dev: false
 
   /tsconfig-paths@3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}

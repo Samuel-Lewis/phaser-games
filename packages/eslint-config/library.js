@@ -5,10 +5,10 @@ const project = resolve(process.cwd(), "tsconfig.json");
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   extends: [
+    "samuel-lewis",
     "eslint:recommended",
     "prettier",
     "eslint-config-turbo",
-    "samuel-lewis",
   ],
   plugins: ["only-warn"],
   globals: {
