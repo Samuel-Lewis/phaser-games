@@ -94,7 +94,7 @@ export class Network extends Phaser.Scene {
 
       const distance = Phaser.Math.Distance.Between(c1x, c1y, c2x, c2y);
 
-      const alpha = Phaser.Math.Clamp(1 - distance / 200, 0, 1);
+      const alpha = Phaser.Math.Clamp(1 - distance / 250, 0, 1);
       line.line.setAlpha(alpha);
     }
   }
