@@ -1,6 +1,13 @@
-"use client";
-
-import { games } from "../games";
+const games = [
+  {
+    name: "Dots",
+    slug: "dots",
+  },
+  {
+    name: "Game Template",
+    slug: "template",
+  },
+];
 
 export default function Page(): JSX.Element {
   return (

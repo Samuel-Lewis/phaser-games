@@ -9,4 +9,4 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: Example,
 };
 
-export const ExampleGame = new Game("example", "Example Template", config);
+export const ExampleGame = new Game("template", "Example Template", config);

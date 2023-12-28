@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { Game } from "../../../../packages/engine/src";
 import { games } from "../../games";
 
 import styles from "./page.module.css";
@@ -14,12 +13,12 @@ export default function Page({
 }: {
   params: { game: string };
 }): JSX.Element {
-  const [game, setGame] = useState<Game>();
+  const [gameName, setGameName] = useState<string>();
 
   useEffect(() => {
     // Find slug in games
     const gameFactory = games.find((game) => game.slug === params.game);
-    setGame(gameFactory);
+    setGameName(gameFactory?.name);
 
     if (!gameFactory) {
       return;
@@ -33,7 +32,7 @@ export default function Page({
 
   return (
     <>
-      <h1>{game?.name}</h1>
+      <h1>{gameName}</h1>
       <a href="/">Back</a>
       <div className={styles.canvas} id={TARGET_ID} />
     </>

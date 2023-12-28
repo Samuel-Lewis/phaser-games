@@ -31,6 +31,10 @@ export class Network extends Phaser.Scene {
       for (let j = i + 1; j < numCircles; j++) {
         const circle1 = this.circles[i];
         const circle2 = this.circles[j];
+        if (!circle1 || !circle2) {
+          continue;
+        }
+
         const line = this.add
           .line(0, 0, circle1.x, circle1.y, circle2.x, circle2.y, color)
           .setOrigin(0, 0)
@@ -58,6 +62,10 @@ export class Network extends Phaser.Scene {
     // Circle movement
     for (let i = 0; i < numCircles; i++) {
       const circle = this.circles[i];
+      if (!circle) {
+        continue;
+      }
+
       const noiseOffset = i * 1000;
       const noiseX =
         (this.simplex.noise(time / 5000, noiseOffset) * moveSpeed * delta) /
@@ -85,6 +93,10 @@ export class Network extends Phaser.Scene {
     // Line rendering
     for (let i = 0; i < this.lines.length; i++) {
       const line = this.lines[i];
+      if (!line) {
+        continue;
+      }
+
       const { x: c1x = Number.MAX_VALUE, y: c1y = Number.MAX_VALUE } =
         line.circle1.getCenter();
       const { x: c2x = Number.MAX_VALUE, y: c2y = Number.MAX_VALUE } =
