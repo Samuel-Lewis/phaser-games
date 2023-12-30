@@ -1,7 +1,11 @@
 const games = [
   {
-    name: "Dots",
-    slug: "dots",
+    name: "Waves",
+    slug: "waves",
+  },
+  {
+    name: "Network",
+    slug: "network",
   },
   {
     name: "Game Template",

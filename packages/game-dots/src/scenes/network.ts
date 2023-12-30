@@ -17,6 +17,10 @@ export class Network extends Phaser.Scene {
     circle2: Phaser.GameObjects.Arc;
   }> = [];
 
+  constructor() {
+    super("network");
+  }
+
   create() {
     const { width, height } = this.sys.game.canvas;
 
