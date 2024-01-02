@@ -1,5 +1,9 @@
 const games = [
   {
+    name: "Simon Says",
+    slug: "simon-says",
+  },
+  {
     name: "Waves",
     slug: "waves",
   },
@@ -16,7 +20,7 @@ const games = [
 export default function Page(): JSX.Element {
   return (
     <>
-      <h1>Game Index</h1>
+      <h1 style={{ fontFamily: "pixel, Comic Sans, Times" }}>Game Index</h1>
       <ul>
         {games.map((game) => (
           <li key={game.slug}>

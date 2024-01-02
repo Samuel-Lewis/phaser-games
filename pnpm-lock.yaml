@@ -29,6 +29,9 @@ importers:
       '@samuel-lewis/game-dots':
         specifier: workspace:*
         version: link:../../packages/game-dots
+      '@samuel-lewis/game-simon-says':
+        specifier: workspace:*
+        version: link:../../packages/game-simon-says
       '@samuel-lewis/game-template':
         specifier: workspace:*
         version: link:../../packages/game-template
@@ -121,6 +124,22 @@ importers:
       ts-perlin-simplex:
         specifier: ^0.0.3
         version: 0.0.3
+    devDependencies:
+      '@samuel-lewis/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
+  packages/game-simon-says:
+    dependencies:
+      '@samuel-lewis/engine':
+        specifier: workspace:*
+        version: link:../engine
+      phaser:
+        specifier: ^3.70.0
+        version: 3.70.0
     devDependencies:
       '@samuel-lewis/eslint-config':
         specifier: workspace:*

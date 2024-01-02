@@ -7,3 +7,10 @@
 a {
   color: white;
 }
+
+@font-face {
+  font-family: pixel;
+  src: url("../public/common/fonts/pixel.ttf");
+  font-weight: 400;
+  font-weight: normal;
+}
