@@ -1,2 +1,2 @@
-export { defaultConfig } from "./default-config";
-export * from "./game";
+export { defaultConfig } from './default-config';
+export * from './game';

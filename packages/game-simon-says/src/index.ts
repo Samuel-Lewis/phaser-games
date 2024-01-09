@@ -1,12 +1,13 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
-import { Game, defaultConfig } from "@samuel-lewis/engine";
+import { Game, defaultConfig } from '@samuel-lewis/engine';
 
-import { GameScene } from "./scenes/game";
+import { GameScene } from './scenes/game';
+import { GameOverScene } from './scenes/game-over';
 
 const config: Phaser.Types.Core.GameConfig = {
   ...defaultConfig,
-  scene: [GameScene],
+  scene: [GameScene, GameOverScene],
   scale: {
     mode: Phaser.Scale.RESIZE,
     autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -14,4 +15,4 @@ const config: Phaser.Types.Core.GameConfig = {
   physics: undefined,
 };
 
-export const SimonSaysGame = new Game("simon-says", "Simon Says", config);
+export const SimonSaysGame = new Game('simon-says', 'Simon Says', config);

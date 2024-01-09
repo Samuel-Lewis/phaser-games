@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { games } from "../../games";
+import { games } from '../../games';
 
-import styles from "./page.module.css";
+import styles from './page.module.css';
 
-const TARGET_ID = "phaser-game";
+const TARGET_ID = 'phaser-game';
 
 export default function Page({
   params,

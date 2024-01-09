@@ -8,6 +8,8 @@
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "@samuel-lewis/eslint-config": "workspace:*"
+    "@samuel-lewis/eslint-config": "workspace:*",
+    "@samuel-lewis/typescript-config": "workspace:*"
+    
   }
 }

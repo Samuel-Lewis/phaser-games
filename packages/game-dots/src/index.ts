@@ -1,9 +1,9 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
-import { Game, defaultConfig } from "@samuel-lewis/engine";
+import { Game, defaultConfig } from '@samuel-lewis/engine';
 
-import { Network } from "./scenes/network";
-import { Waves } from "./scenes/waves";
+import { Network } from './scenes/network';
+import { Waves } from './scenes/waves';
 
 const config: Phaser.Types.Core.GameConfig = {
   ...defaultConfig,
@@ -16,12 +16,12 @@ const config: Phaser.Types.Core.GameConfig = {
   physics: undefined,
 };
 
-export const NetworkGame = new Game("network", "Network", {
+export const NetworkGame = new Game('network', 'Network', {
   ...config,
   scene: [Network],
 });
 
-export const WavesGame = new Game("waves", "Waves", {
+export const WavesGame = new Game('waves', 'Waves', {
   ...config,
   scene: [Waves],
 });

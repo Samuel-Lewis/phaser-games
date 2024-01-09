@@ -1,5 +1,5 @@
-import Phaser from "phaser";
-import Noise from "ts-perlin-simplex";
+import Phaser from 'phaser';
+import Noise from 'ts-perlin-simplex';
 
 const numCircles = 100;
 const circleSize = 4;
@@ -18,7 +18,7 @@ export class Network extends Phaser.Scene {
   }> = [];
 
   constructor() {
-    super("network");
+    super('network');
   }
 
   create() {
@@ -53,7 +53,7 @@ export class Network extends Phaser.Scene {
     }
 
     // FPS label
-    this.fpsLabel = this.add.text(10, 10, "");
+    this.fpsLabel = this.add.text(10, 10, '');
   }
 
   update(time: number, delta: number): void {

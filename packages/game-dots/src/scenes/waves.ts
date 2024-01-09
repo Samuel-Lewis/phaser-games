@@ -1,5 +1,5 @@
-import Phaser from "phaser";
-import Noise from "ts-perlin-simplex";
+import Phaser from 'phaser';
+import Noise from 'ts-perlin-simplex';
 
 const numCircles = 100;
 const circleSize = 4;
@@ -13,13 +13,13 @@ export class Waves extends Phaser.Scene {
   private emitters: Array<Phaser.GameObjects.Particles.ParticleEmitter> = [];
 
   constructor() {
-    super("waves");
+    super('waves');
   }
 
   preload() {
-    this.load.setBaseURL("https://labs.phaser.io");
+    this.load.setBaseURL('https://labs.phaser.io');
 
-    this.load.image("brush", "assets/sprites/brush2.png");
+    this.load.image('brush', 'assets/sprites/brush2.png');
   }
 
   private getNoise(xSeed: number, ySeed: number, zSeed: number = 0) {
@@ -44,7 +44,7 @@ export class Waves extends Phaser.Scene {
       // const container = this.add.container(randomX, randomY);
 
       // const circle = this.add.circle(0, 0, circleSize, color);
-      const emitter = this.add.particles(0, 0, "brush", {
+      const emitter = this.add.particles(0, 0, 'brush', {
         lifespan: 3000,
         scale: { start: 0.1, end: 0 },
         tint: color,
@@ -55,7 +55,7 @@ export class Waves extends Phaser.Scene {
     }
 
     // FPS label
-    this.fpsLabel = this.add.text(10, 10, "");
+    this.fpsLabel = this.add.text(10, 10, '');
   }
 
   update(time: number, delta: number): void {

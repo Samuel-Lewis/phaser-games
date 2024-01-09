@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@samuel-lewis/eslint-config": "workspace:*",
+    "@samuel-lewis/typescript-config": "workspace:*",
     "typescript": "^5.2.2"
   }
 }
