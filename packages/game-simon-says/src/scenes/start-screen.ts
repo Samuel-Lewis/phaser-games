@@ -2,15 +2,9 @@ import Phaser from 'phaser';
 
 import { SceneKeys } from '../keys';
 
-export class GameOverScene extends Phaser.Scene {
-  private score: number = 0;
-
+export class StartScreenScene extends Phaser.Scene {
   constructor() {
-    super(SceneKeys.GameOver);
-  }
-
-  init(data: { score: number }) {
-    this.score = data.score;
+    super(SceneKeys.StartScreen);
   }
 
   preload() {
@@ -25,22 +19,20 @@ export class GameOverScene extends Phaser.Scene {
     const centerY = height / 2;
 
     this.add
-      .text(centerX, centerY, `GAME OVER\nScore: ${this.score}`, {
-        fontSize: '48px',
+      .text(centerX, centerY - 200, `Simon Says`, {
+        fontSize: '96px',
         fontFamily: 'pixel',
       })
       .setOrigin(0.5)
       .setAlign('center');
 
     this.add
-      .text(centerX, centerY + 128, `Click to Start`, {
+      .text(centerX, centerY, `Click to Start`, {
         fontSize: '32px',
         fontFamily: 'pixel',
       })
       .setOrigin(0.5)
       .setAlign('center');
-
-    this.sound.play('game-over');
 
     this.input.on('pointerdown', () => this.scene.start(SceneKeys.Game));
   }

@@ -1,6 +1,5 @@
 export enum SceneKeys {
-  Preloader = 'preloader',
-  MainMenu = 'main-menu',
+  StartScreen = 'start-screen',
   Game = 'game',
   GameOver = 'game-over',
 }

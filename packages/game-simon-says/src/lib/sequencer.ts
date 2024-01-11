@@ -1,4 +1,10 @@
+enum StepType {
+  STEP,
+  PAUSE,
+}
+
 export type Step = {
+  type: StepType;
   duration: number;
   onEnter?: () => void;
   onUpdate?: () => void;
@@ -16,6 +22,14 @@ export class Sequencer {
     return this;
   }
 
+  addStep(step: Omit<Step, 'type'>) {
+    return this.add({ ...step, type: StepType.STEP });
+  }
+
+  addPause(step: Omit<Step, 'type'>) {
+    return this.add({ ...step, type: StepType.PAUSE });
+  }
+
   add(step: Step) {
     this.steps.push(step);
     return this;
@@ -26,12 +40,21 @@ export class Sequencer {
     return this;
   }
 
-  stop() {
+  continue() {
+    return this.start();
+  }
+
+  pause() {
     this.playing = false;
     return this;
   }
 
+  stop() {
+    return this.reset();
+  }
+
   reset() {
+    this.playing = false;
     this.currentStep = 0;
     this.currentStepTime = 0;
     return this;
