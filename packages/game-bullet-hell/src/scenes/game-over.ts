@@ -2,11 +2,12 @@ import Phaser from 'phaser';
 
 import { SceneKeys } from '../keys';
 
-export class GameOverScene extends Phaser.Scene {
+import { BaseScene } from './base';
+
+export class GameOverScene extends BaseScene {
   private labelTitle!: Phaser.GameObjects.Text;
   private labelScore!: Phaser.GameObjects.Text;
   private labelStartAgain!: Phaser.GameObjects.Text;
-  private imageBackground!: Phaser.GameObjects.TileSprite;
   private score = 0;
 
   constructor() {
@@ -17,21 +18,11 @@ export class GameOverScene extends Phaser.Scene {
     this.score = data.score;
   }
 
-  preload() {
-    const origin = window.location.origin;
-    this.load.setBaseURL(origin);
-
-    this.load.image('background', 'bullet-hell/graphics/bg_darkPurple.png');
-  }
-
   create() {
+    super.create();
     const { width, height } = this.sys.game.canvas;
     const centerX = width / 2;
     const centerY = height / 2;
-
-    this.imageBackground = this.add
-      .tileSprite(0, 0, width, height, 'background')
-      .setOrigin(0, 0);
 
     this.labelTitle = this.add
       .text(centerX, centerY, 'Game Over', {
@@ -65,8 +56,8 @@ export class GameOverScene extends Phaser.Scene {
     });
   }
 
-  update() {
-    this.imageBackground.tilePositionY -= 1;
+  update(time: number, delta: number) {
+    super.update(time, delta);
     this.labelScore.setText(`Score: ${this.score}`);
   }
 }

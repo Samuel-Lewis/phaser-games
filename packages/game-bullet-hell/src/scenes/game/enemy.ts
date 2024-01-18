@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { GameScene } from './game';
+import { GameScene } from './index';
 
 export class EnemyObject extends Phaser.Physics.Arcade.Sprite {
   scene: GameScene;

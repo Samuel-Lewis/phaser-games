@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 
-import { GameScene } from './game';
 import { PlayerObject } from './player';
+
+import { GameScene } from './index';
 
 export class PowerObject extends Phaser.Physics.Arcade.Sprite {
   scene: GameScene;

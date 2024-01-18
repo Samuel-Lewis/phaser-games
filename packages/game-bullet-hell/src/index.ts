@@ -2,13 +2,14 @@ import Phaser from 'phaser';
 
 import { Game, defaultConfig } from '@samuel-lewis/engine';
 
+import { BootScene } from './scenes/boot';
 import { GameScene } from './scenes/game';
 import { GameOverScene } from './scenes/game-over';
 import { StartScreenScene } from './scenes/start-screen';
 
 const config: Phaser.Types.Core.GameConfig = {
   ...defaultConfig,
-  scene: [GameScene, GameOverScene, StartScreenScene],
+  scene: [BootScene, StartScreenScene, GameScene, GameOverScene],
   pixelArt: false,
   width: 1080,
   height: 1920,
