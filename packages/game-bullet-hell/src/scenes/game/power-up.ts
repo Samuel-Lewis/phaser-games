@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+import { RenderLayer } from '../../keys';
+
 import { PlayerObject } from './player';
 
 import { GameScene } from './index';
@@ -23,6 +25,7 @@ export class PowerObject extends Phaser.Physics.Arcade.Sprite {
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.scene.groupPowerUps.add(this);
+    this.setDepth(RenderLayer.Game);
 
     const { width, height } = this.scene.sys.game.canvas;
     if (this.x === 0) {

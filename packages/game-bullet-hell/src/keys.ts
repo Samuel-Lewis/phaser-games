@@ -4,3 +4,9 @@ export enum SceneKeys {
   Game = 'game',
   GameOver = 'game-over',
 }
+
+export enum RenderLayer {
+  Background = 0,
+  Game = 100,
+  UI = 200,
+}

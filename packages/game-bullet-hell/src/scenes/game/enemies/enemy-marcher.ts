@@ -1,12 +1,8 @@
-import Phaser from 'phaser';
+import { GameScene } from '..';
 
-import { GameScene } from './index';
+import { EnemyObject } from './enemy';
 
-export class EnemyObject extends Phaser.Physics.Arcade.Sprite {
-  scene: GameScene;
-  private score;
-  private duration = 5000;
-
+export class EnemyMarcherObject extends EnemyObject {
   constructor(
     scene: GameScene,
     x = 0,
@@ -18,20 +14,11 @@ export class EnemyObject extends Phaser.Physics.Arcade.Sprite {
       duration: 5000,
     }
   ) {
-    super(scene, x, y, texture, frame);
-    this.scene = scene;
-
-    const { score, duration } = options;
-    this.score = score;
-    this.duration = duration;
-
-    return this;
+    super(scene, x, y, texture, frame, options);
   }
 
   create() {
-    this.scene.add.existing(this);
-    this.scene.physics.add.existing(this);
-    this.scene.groupEnemies.add(this);
+    super.create();
 
     const { width, height } = this.scene.sys.game.canvas;
     if (this.x === 0) {
@@ -50,13 +37,5 @@ export class EnemyObject extends Phaser.Physics.Arcade.Sprite {
     });
 
     return this;
-  }
-
-  getScore() {
-    return this.score;
-  }
-
-  getDuration() {
-    return this.duration;
   }
 }

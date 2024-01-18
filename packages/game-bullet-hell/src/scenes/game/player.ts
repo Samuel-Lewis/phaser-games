@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+import { RenderLayer } from '../../keys';
+
 import { GameScene } from './index';
 
 Phaser.GameObjects.Container;
@@ -28,9 +30,12 @@ export class PlayerObject extends Phaser.GameObjects.Container {
   private lives = 3;
   private shieldLevel = 0;
 
+  private onShootCallback?: (shootCooldown: number) => void;
+
   constructor(scene: GameScene) {
     super(scene, 0, 0);
     this.scene = scene;
+    return this;
   }
 
   create() {
@@ -44,7 +49,7 @@ export class PlayerObject extends Phaser.GameObjects.Container {
     this.spriteShield1 = this.scene.add.sprite(0, -8, 'sprites', 'shield1');
     this.spriteShield2 = this.scene.add.sprite(0, -8, 'sprites', 'shield2');
     this.spriteShield3 = this.scene.add.sprite(0, 0, 'sprites', 'shield3');
-    this.updateShield();
+    this.drawShield();
 
     this.spriteDamage1 = this.scene.add.sprite(
       0,
@@ -64,8 +69,9 @@ export class PlayerObject extends Phaser.GameObjects.Container {
       'sprites',
       'playerShip1_damage3'
     );
-    this.updateDamage();
+    this.drawDamage();
 
+    this.setDepth(RenderLayer.Game);
     this.add([
       this.spriteShip,
       this.spriteShield1,
@@ -95,6 +101,22 @@ export class PlayerObject extends Phaser.GameObjects.Container {
     this.keyShoot = this.scene.input.keyboard?.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
+    return this;
+  }
+
+  update(time: number, delta: number) {
+    // Input control
+    let moveDirection = 0;
+    if (this.keyLeft?.isDown) {
+      moveDirection -= 1;
+    } else if (this.keyRight?.isDown) {
+      moveDirection += 1;
+    }
+    this.move(time, delta, moveDirection);
+
+    if (this.keyShoot?.isDown) {
+      this.shoot(time, delta);
+    }
   }
 
   move(time: number, delta: number, moveDirection: number) {
@@ -118,6 +140,8 @@ export class PlayerObject extends Phaser.GameObjects.Container {
       return;
     }
 
+    this.scene.sound.play('laser1');
+
     this.playerShootTimer = time + this.playerShootCoolDown;
 
     // Launch a laser
@@ -137,10 +161,14 @@ export class PlayerObject extends Phaser.GameObjects.Container {
 
     this.scene.groupPlayerProjectiles.add(laser);
 
+    if (this.onShootCallback) {
+      this.onShootCallback(this.playerShootCoolDown);
+    }
+
     return laser;
   }
 
-  updateShield() {
+  drawShield() {
     this.spriteShield1?.setVisible(false).setActive(false);
     this.spriteShield2?.setVisible(false).setActive(false);
     this.spriteShield3?.setVisible(false).setActive(false);
@@ -154,7 +182,7 @@ export class PlayerObject extends Phaser.GameObjects.Container {
     }
   }
 
-  updateDamage() {
+  drawDamage() {
     this.spriteDamage1?.setVisible(false).setActive(false);
     this.spriteDamage2?.setVisible(false).setActive(false);
     this.spriteDamage3?.setVisible(false).setActive(false);
@@ -169,36 +197,33 @@ export class PlayerObject extends Phaser.GameObjects.Container {
   }
 
   increaseShield(amount = 1) {
+    if (amount > 0) {
+      this.scene.sound.play('shieldUp');
+    } else if (amount < 0) {
+      this.scene.sound.play('shieldDown');
+    }
+
     this.shieldLevel = Phaser.Math.Clamp(this.shieldLevel + amount, 0, 3);
-    this.updateShield();
+    this.drawShield();
   }
 
   damage(amount: number = 1) {
     if (this.shieldLevel > 0) {
       this.shieldLevel = Phaser.Math.Clamp(this.shieldLevel - amount, 0, 3);
-      this.updateShield();
+      this.scene.sound.play('shieldDown');
+      this.drawShield();
       return;
     }
 
     this.health -= amount;
+    this.scene.sound.play('lose');
     if (this.health <= 0) {
       this.scene.gameOver();
     }
-    this.updateDamage();
+    this.drawDamage();
   }
 
-  update(time: number, delta: number) {
-    // Input control
-    let moveDirection = 0;
-    if (this.keyLeft?.isDown) {
-      moveDirection -= 1;
-    } else if (this.keyRight?.isDown) {
-      moveDirection += 1;
-    }
-    this.move(time, delta, moveDirection);
-
-    if (this.keyShoot?.isDown) {
-      this.shoot(time, delta);
-    }
+  onShoot(callback: (shootCooldown: number) => void) {
+    this.onShootCallback = callback;
   }
 }

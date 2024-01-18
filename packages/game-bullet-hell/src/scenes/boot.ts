@@ -15,10 +15,6 @@ export class BootScene extends Phaser.Scene {
     const origin = window.location.origin;
     this.load.setBaseURL(origin);
 
-    this.load.on('progress', (progress: number) => {
-      this.loadProgress = progress;
-    });
-
     this.load.atlas(
       'sprites',
       'bullet-hell/graphics/sprites.png',
@@ -26,6 +22,32 @@ export class BootScene extends Phaser.Scene {
     );
 
     this.load.image('background', 'bullet-hell/graphics/bg_darkPurple.png');
+
+    const sounds = [
+      'laser1',
+      'laser2',
+      'lose',
+      'shieldDown',
+      'shieldUp',
+      'twoTone',
+      'zap',
+    ];
+
+    for (let i = 0; i < sounds.length; i++) {
+      const fileName = sounds[i] ?? 'laser1';
+      this.load.audio(fileName, [
+        `bullet-hell/sound/${fileName}.ogg`,
+        `bullet-hell/sound/${fileName}.mp3`,
+      ]);
+    }
+
+    this.load.on('progress', (progress: number) => {
+      this.loadProgress = progress;
+    });
+
+    this.load.on('complete', () => {
+      this.scene.start(SceneKeys.StartScreen);
+    });
   }
 
   create() {
@@ -33,14 +55,13 @@ export class BootScene extends Phaser.Scene {
     const centerX = width / 2;
     const centerY = height / 2;
 
-    this.labelLoad = this.add.text(centerX, centerY, '');
+    this.labelLoad = this.add.text(centerX, centerY, '', {
+      color: '#ffffff',
+      fontFamily: 'future, Verdana, sans-serif',
+    });
   }
 
   update() {
-    if (this.loadProgress === 1) {
-      this.scene.start(SceneKeys.StartScreen);
-    }
-
     const loadPercent = Math.round(this.loadProgress * 100);
     this.labelLoad?.setText(`Loading ${loadPercent}%`);
   }

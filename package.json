@@ -5,7 +5,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write **/*.{ts,tsx,md}"
   },
   "devDependencies": {
     "@samuel-lewis/eslint-config": "workspace:*",
@@ -20,6 +20,6 @@
     "node": ">=18"
   },
   "lint-staged": {
-    "*": "prettier --write \"**/*.{ts,tsx,md}\""
+    "*.{ts,tsx,md}": "prettier --write **/*.{ts,tsx,md}"
   }
 }

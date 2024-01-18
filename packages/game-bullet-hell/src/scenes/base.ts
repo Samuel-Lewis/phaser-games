@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 
+import { RenderLayer } from '../keys';
+
 export class BaseScene extends Phaser.Scene {
   private imageBackground!: Phaser.GameObjects.TileSprite;
   private labelFps!: Phaser.GameObjects.Text;
@@ -16,10 +18,11 @@ export class BaseScene extends Phaser.Scene {
     // Background
     this.imageBackground = this.add
       .tileSprite(0, 0, width, height, 'background')
-      .setOrigin(0, 0);
+      .setOrigin(0, 0)
+      .setDepth(RenderLayer.Background);
 
     // FPS label
-    this.labelFps = this.add.text(10, 10, '');
+    this.labelFps = this.add.text(10, 10, '').setDepth(RenderLayer.UI);
   }
 
   update(time: number, delta: number) {

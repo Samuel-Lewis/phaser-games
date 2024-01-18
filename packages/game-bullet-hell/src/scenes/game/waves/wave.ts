@@ -1,23 +1,24 @@
+import Phaser from 'phaser';
+
 import {
   Sequencer,
   evenInSegment,
   randomInSegments,
 } from '@samuel-lewis/engine';
 
-import { EnemyObject } from './enemy';
-import { PowerObject } from './powerup';
-
-import { GameScene } from '.';
+import { GameScene } from '..';
+import { EnemyType, enemyRegistry } from '../enemies';
+import { PowerObject } from '../power-up';
 
 type FeatureOptions = {
-  enemyType?: string;
+  enemyType?: EnemyType;
   units?: number;
   delay?: number;
   postFeatureDelay?: number;
 };
 
 const defaultFeatureOptions: Required<FeatureOptions> = {
-  enemyType: '',
+  enemyType: 'marcher',
   units: 3,
   delay: 200,
   postFeatureDelay: 1000,
@@ -52,7 +53,7 @@ export class Wave {
   }
 
   featureRandom(options: FeatureOptions = defaultFeatureOptions) {
-    const { units, delay, postFeatureDelay } = {
+    const { units, delay, postFeatureDelay, enemyType } = {
       ...defaultFeatureOptions,
       ...options,
     };
@@ -60,12 +61,14 @@ export class Wave {
     const { width } = this.scene.sys.game.canvas;
     const xPositions = randomInSegments(0, width, units);
 
+    const EnemyClass = enemyRegistry[enemyType];
+
     this.sequencer
       .addStep({
         duration: delay,
         onEnter: () => {
           for (let i = 0; i < units; i++) {
-            new EnemyObject(this.scene, xPositions[i]).create();
+            new EnemyClass(this.scene, xPositions[i]).create();
           }
         },
       })
@@ -83,17 +86,19 @@ export class Wave {
       delay,
       postFeatureDelay,
       reverse = false,
+      enemyType,
     } = { ...defaultFeatureOptions, ...options };
 
     const { width } = this.scene.sys.game.canvas;
     const xPositions = evenInSegment(0, width, units);
+    const EnemyClass = enemyRegistry[enemyType];
 
     for (let i = 0; i < units; i++) {
       const xPosition = reverse ? xPositions[units - i - 1] : xPositions[i];
       this.sequencer.addStep({
         duration: delay,
         onEnter: () => {
-          new EnemyObject(this.scene, xPosition).create();
+          new EnemyClass(this.scene, xPosition).create();
         },
       });
     }
@@ -105,7 +110,7 @@ export class Wave {
   }
 
   featureTriangle(options: FeatureOptions = defaultFeatureOptions) {
-    const { units, delay, postFeatureDelay } = {
+    const { units, delay, postFeatureDelay, enemyType } = {
       ...defaultFeatureOptions,
       ...options,
     };
@@ -116,13 +121,14 @@ export class Wave {
     const layers = Math.ceil(units / 2);
 
     const mid = Math.floor(xPositions.length / 2);
+    const EnemyClass = enemyRegistry[enemyType];
 
     // First forward layer
     const midPosition = xPositions[mid];
     this.sequencer.addStep({
       duration: delay,
       onEnter: () => {
-        new EnemyObject(this.scene, midPosition).create();
+        new EnemyClass(this.scene, midPosition).create();
       },
     });
 
@@ -130,8 +136,8 @@ export class Wave {
       this.sequencer.addStep({
         duration: delay,
         onEnter: () => {
-          new EnemyObject(this.scene, xPositions[mid - i]).create();
-          new EnemyObject(this.scene, xPositions[mid + i]).create();
+          new EnemyClass(this.scene, xPositions[mid - i]).create();
+          new EnemyClass(this.scene, xPositions[mid + i]).create();
         },
       });
     }

@@ -2,13 +2,15 @@ import Phaser from 'phaser';
 
 import { Sequencer, StepType } from '@samuel-lewis/engine';
 
-import { SceneKeys } from '../../keys';
+import { RenderLayer, SceneKeys } from '../../keys';
 import { BaseScene } from '../base';
 
-import { EnemyObject } from './enemy';
+import { CooldownBar } from './cooldown-bar';
+import { EnemyObject } from './enemies/enemy';
 import { PlayerObject } from './player';
-import { PowerObject } from './powerup';
-import { Wave } from './waves';
+import { PowerObject } from './power-up';
+import { getWaveData } from './waves/data';
+import { Wave } from './waves/wave';
 
 export class GameScene extends BaseScene {
   private labelCommunication!: Phaser.GameObjects.Text;
@@ -19,6 +21,7 @@ export class GameScene extends BaseScene {
   public groupPlayers!: Phaser.Physics.Arcade.Group;
   public groupPlayerProjectiles!: Phaser.Physics.Arcade.Group;
 
+  private cooldownBar!: CooldownBar;
   private player!: PlayerObject;
 
   private waves: Sequencer[] = [];
@@ -49,8 +52,12 @@ export class GameScene extends BaseScene {
     this.groupPlayers = this.physics.add.group();
     this.groupPlayerProjectiles = this.physics.add.group();
 
-    this.player = new PlayerObject(this);
-    this.player.create();
+    this.player = new PlayerObject(this).create();
+    this.cooldownBar = new CooldownBar(this).create();
+
+    this.player.onShoot((shootCooldown) => {
+      this.cooldownBar.fire(shootCooldown);
+    });
 
     this.labelCommunication = this.add
       .text(centerX, centerY, '', {
@@ -59,31 +66,12 @@ export class GameScene extends BaseScene {
         fontFamily: 'future, Verdana, sans-serif',
       })
       .setOrigin(0.5, 0.5)
-      .setAlign('center');
+      .setAlign('center')
+      .setDepth(RenderLayer.UI);
 
-    const wave1 = new Wave(this)
-      .featureTriangle({ postFeatureDelay: 4000 })
-      .featureSlant({ units: 3 });
-    const wave2 = new Wave(this)
-      .featureTriangle({ units: 5 })
-      .featurePowerUp()
-      .featureSlant({ units: 5 });
+    const waveData = getWaveData(this);
 
-    const wave3 = new Wave(this)
-      .featureRandom({ postFeatureDelay: 1000, units: 2 })
-      .featureRandom({ postFeatureDelay: 1000, units: 3 })
-      .featurePowerUp()
-      .featureRandom({ postFeatureDelay: 1000, units: 2 })
-      .featureRandom({ postFeatureDelay: 1000, units: 3 });
-
-    const wave4 = new Wave(this)
-      .featureSlant({ units: 5 })
-      .featureSlant({ units: 5, reverse: true })
-      .featurePowerUp()
-      .featureSlant({ units: 5 })
-      .featureSlant({ units: 5, reverse: true });
-
-    [wave1, wave2, wave3, wave4].forEach((wave) => {
+    waveData.forEach((wave) => {
       this.waves.push(wave.getSequencer());
     });
 
@@ -200,6 +188,21 @@ export class GameScene extends BaseScene {
         enemy.destroy();
 
         this.score += enemy.getScore();
+
+        this.cameras.main.shake(250, 0.005);
+      }
+    );
+
+    this.physics.collide(
+      this.groupPlayers,
+      this.groupEnemyProjectiles,
+      (player, projectile) => {
+        if (!(player instanceof PlayerObject)) {
+          return;
+        }
+
+        player.damage();
+        projectile.destroy();
 
         this.cameras.main.shake(250, 0.005);
       }
