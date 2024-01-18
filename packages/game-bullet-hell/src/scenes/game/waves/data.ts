@@ -44,5 +44,28 @@ export const getWaveData = (scene: GameScene) => {
       .featureSlant({ units: 2, enemyType: 'shooter' })
   );
 
+  allWaves.push(
+    new Wave(scene)
+      .featureSlant({ units: 5, enemyType: 'shooter', delay: 750 })
+      .featureRandom({ units: 3 })
+      .featureTriangle()
+  );
+
+  allWaves.push(
+    new Wave(scene).featureTriangle({ units: 10, enemyType: 'shooter' })
+  );
+
+  allWaves.push(
+    new Wave(scene)
+      .featureSlant({ units: 7 })
+      .featureRandom({ units: 3, enemyType: 'shooter' })
+      .featureSlant({ units: 7, reverse: true })
+      .featureRandom({ units: 3, enemyType: 'shooter' })
+  );
+
+  allWaves.push(
+    new Wave(scene).featureRandom({ units: 100, enemyType: 'shooter' })
+  );
+
   return allWaves;
 };
