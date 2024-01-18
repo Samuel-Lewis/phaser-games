@@ -32,6 +32,9 @@ importers:
       '@samuel-lewis/engine':
         specifier: workspace:*
         version: link:../../packages/engine
+      '@samuel-lewis/game-bullet-hell':
+        specifier: workspace:*
+        version: link:../../packages/game-bullet-hell
       '@samuel-lewis/game-dots':
         specifier: workspace:*
         version: link:../../packages/game-dots
@@ -118,6 +121,25 @@ importers:
       eslint-plugin-only-warn:
         specifier: ^1.1.0
         version: 1.1.0
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+
+  packages/game-bullet-hell:
+    dependencies:
+      '@samuel-lewis/engine':
+        specifier: workspace:*
+        version: link:../engine
+      phaser:
+        specifier: ^3.70.0
+        version: 3.70.0
+    devDependencies:
+      '@samuel-lewis/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@samuel-lewis/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       typescript:
         specifier: ^5.2.2
         version: 5.2.2

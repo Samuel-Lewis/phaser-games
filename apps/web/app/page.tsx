@@ -1,5 +1,9 @@
 const games = [
   {
+    name: 'Bullet Hell',
+    slug: 'bullet-hell',
+  },
+  {
     name: 'Simon Says',
     slug: 'simon-says',
   },

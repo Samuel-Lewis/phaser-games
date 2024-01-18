@@ -1,0 +1,14 @@
+{
+  "name": "@samuel-lewis/game-bullet-hell",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@samuel-lewis/engine": "workspace:*",
+    "phaser": "^3.70.0"
+  },
+  "devDependencies": {
+    "@samuel-lewis/eslint-config": "workspace:*",
+    "@samuel-lewis/typescript-config": "workspace:*",
+    "typescript": "^5.2.2"
+  }
+}

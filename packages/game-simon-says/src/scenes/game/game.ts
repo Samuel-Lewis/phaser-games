@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 
+import { Sequencer } from '@samuel-lewis/engine';
+
 import { SceneKeys } from '../../keys';
-import { Sequencer } from '../../lib/sequencer';
 
 enum Direction {
   Up = '⬆️',
@@ -297,8 +298,6 @@ export class GameScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    const { width, height } = this.sys.game.canvas;
-
     this.labelLevel.text =
       `Level: ${this.level}\n\n` + this.currentPattern.join(' ');
 

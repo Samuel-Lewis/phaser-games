@@ -10,7 +10,14 @@ a {
 
 @font-face {
   font-family: pixel;
-  src: url("../public/common/fonts/pixel.ttf");
+  src: url('../public/common/fonts/pixel.ttf');
+  font-weight: 400;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: future;
+  src: url('../public/bullet-hell/fonts/future.ttf');
   font-weight: 400;
   font-weight: normal;
 }
