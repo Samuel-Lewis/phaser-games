@@ -13,6 +13,7 @@
     "@samuel-lewis/game-dots": "workspace:*",
     "@samuel-lewis/game-simon-says": "workspace:*",
     "@samuel-lewis/game-bullet-hell": "workspace:*",
+    "@samuel-lewis/game-marco-maker": "workspace:*",
     "@samuel-lewis/engine": "workspace:*",
     "next": "^14.0.3",
     "react": "^18.2.0",

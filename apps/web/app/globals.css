@@ -17,7 +17,7 @@ a {
 
 @font-face {
   font-family: future;
-  src: url('../public/bullet-hell/fonts/future.ttf');
+  src: url('../public/common/fonts/future.ttf');
   font-weight: 400;
   font-weight: normal;
 }

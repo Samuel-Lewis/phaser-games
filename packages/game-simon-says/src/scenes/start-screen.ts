@@ -10,7 +10,7 @@ export class StartScreenScene extends Phaser.Scene {
   preload() {
     const origin = window.location.origin;
     this.load.setBaseURL(origin);
-    this.load.audio('game-over', 'simon-says/audio/game-over.mp3');
+    this.load.audio('game-over', 'simon-says/sound/game-over.mp3');
   }
 
   create() {

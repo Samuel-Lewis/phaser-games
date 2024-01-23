@@ -6,5 +6,6 @@ module.exports = {
     '@samuel-lewis/game-simon-says',
     '@samuel-lewis/game-dots',
     '@samuel-lewis/game-bullet-hell',
+    '@samuel-lewis/game-marco-maker',
   ],
 };

@@ -1,5 +1,9 @@
 const games = [
   {
+    name: 'Marco Maker',
+    slug: 'marco-maker',
+  },
+  {
     name: 'Bullet Hell',
     slug: 'bullet-hell',
   },

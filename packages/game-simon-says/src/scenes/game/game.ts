@@ -46,15 +46,15 @@ export class GameScene extends Phaser.Scene {
     this.load.setBaseURL(origin);
     this.load.atlas(
       'keys',
-      'common/ui/inputs-white.png',
-      'common/ui/inputs.json'
+      'common/ui/inputs-pixel.png',
+      'common/ui/inputs-pixel.json'
     );
 
-    this.load.audio('up', 'simon-says/audio/up.mp3');
-    this.load.audio('down', 'simon-says/audio/down.mp3');
-    this.load.audio('left', 'simon-says/audio/left.mp3');
-    this.load.audio('right', 'simon-says/audio/right.mp3');
-    this.load.audio('success', 'simon-says/audio/success.mp3');
+    this.load.audio('up', 'simon-says/sound/up.mp3');
+    this.load.audio('down', 'simon-says/sound/down.mp3');
+    this.load.audio('left', 'simon-says/sound/left.mp3');
+    this.load.audio('right', 'simon-says/sound/right.mp3');
+    this.load.audio('success', 'simon-says/sound/success.mp3');
   }
 
   create() {
@@ -80,26 +80,26 @@ export class GameScene extends Phaser.Scene {
 
     this.directions = {
       [Direction.Up]: {
-        image: this.add.image(0, 0, 'keys', 'arrow_up'),
-        imagePressed: this.add.image(0, 0, 'keys', 'arrow_up_dark'),
+        image: this.add.image(0, 0, 'keys', 'white/arrow_up'),
+        imagePressed: this.add.image(0, 0, 'keys', 'white/arrow_up_dark'),
         key: this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
         sound: this.sound.add('up'),
       },
       [Direction.Right]: {
-        image: this.add.image(0, 0, 'keys', 'arrow_right'),
-        imagePressed: this.add.image(0, 0, 'keys', 'arrow_right_dark'),
+        image: this.add.image(0, 0, 'keys', 'white/arrow_right'),
+        imagePressed: this.add.image(0, 0, 'keys', 'white/arrow_right_dark'),
         key: this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
         sound: this.sound.add('right'),
       },
       [Direction.Down]: {
-        image: this.add.image(0, 0, 'keys', 'arrow_down'),
-        imagePressed: this.add.image(0, 0, 'keys', 'arrow_down_dark'),
+        image: this.add.image(0, 0, 'keys', 'white/arrow_down'),
+        imagePressed: this.add.image(0, 0, 'keys', 'white/arrow_down_dark'),
         key: this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN),
         sound: this.sound.add('down'),
       },
       [Direction.Left]: {
-        image: this.add.image(0, 0, 'keys', 'arrow_left'),
-        imagePressed: this.add.image(0, 0, 'keys', 'arrow_left_dark'),
+        image: this.add.image(0, 0, 'keys', 'white/arrow_left'),
+        imagePressed: this.add.image(0, 0, 'keys', 'white/arrow_left_dark'),
         key: this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
         sound: this.sound.add('left'),
       },
