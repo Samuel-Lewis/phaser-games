@@ -110,7 +110,7 @@ export class Level {
         x,
         y,
         tileId: this.tiles[index] ?? -1,
-        tint: this.tints[index] ?? null,
+        tintId: this.tints[index] ?? null,
       });
     }
     return data;

@@ -4,6 +4,7 @@ import { TILE_PNG_SIZE } from '../../constants';
 import { RenderLayer, SceneKeys } from '../../keys';
 import { Level } from '../../lib/level';
 import { getTileData } from '../../lib/tile-data';
+import { tintData } from '../../lib/tint-data';
 import { BaseScene } from '../base';
 
 enum EditingMode {
@@ -19,6 +20,7 @@ export class EditingArea extends BaseScene {
   private editingMode: EditingMode = EditingMode.Create;
 
   private selectedPaintTile: number = 24;
+  private selectedTintId: number = 3;
   private marker!: Phaser.GameObjects.Graphics;
 
   constructor() {
@@ -37,10 +39,13 @@ export class EditingArea extends BaseScene {
 
     this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (event.key === '1') {
+        this.dimEdges(false);
         this.editingMode = EditingMode.Create;
       } else if (event.key === '2') {
+        this.dimEdges(false);
         this.editingMode = EditingMode.Tint;
       } else if (event.key === '3') {
+        this.dimEdges(true);
         this.editingMode = EditingMode.Erase;
       }
     });
@@ -100,15 +105,17 @@ export class EditingArea extends BaseScene {
     }
 
     this.tileMap.createLayer('layer', tileset)?.setDepth(RenderLayer.Game);
-    this.level.dataArray().forEach(({ tint, x, y, tileId }) => {
+    this.level.dataArray().forEach(({ tintId, x, y, tileId }) => {
       const tile = this.tileMap.getTileAt(x, y);
       if (!tile) {
         return;
       }
 
-      const defaultTint = getTileData(tileId)?.defaultTint;
+      const defaultTintId = getTileData(tileId)?.defaultTintId;
+      const usingTintId = tintId ?? defaultTintId ?? 0;
+      const tintColour = tintData[usingTintId]!;
 
-      tile.tint = tint ?? defaultTint ?? 0xffffff;
+      tile.tint = tintColour;
     });
   }
 
@@ -196,7 +203,7 @@ export class EditingArea extends BaseScene {
           break;
 
         case EditingMode.Tint:
-          this.tintTile(pointerTileX, pointerTileY, 0xff0000);
+          this.tintTile(pointerTileX, pointerTileY, this.selectedTintId);
           break;
       }
     }
@@ -228,15 +235,52 @@ export class EditingArea extends BaseScene {
   }
 
   eraseTile(x: number, y: number) {
+    // Check if on edge
+    if (
+      x === 0 ||
+      y === 0 ||
+      x === this.tileMap.width - 1 ||
+      y === this.tileMap.height - 1
+    ) {
+      return;
+    }
+
     this.tileMap.removeTileAt(x, y);
   }
 
-  tintTile(x: number, y: number, tint: number) {
+  tintTile(x: number, y: number, tintId: number) {
     const tile = this.tileMap.getTileAt(x, y);
+    const tintColour = tintData[tintId]!;
     if (!tile) {
       return;
     }
 
-    tile.tint = tint;
+    tile.tint = tintColour;
+  }
+
+  dimEdges(doDim = true) {
+    const tiles = this.tileMap.getTilesWithin(
+      0,
+      0,
+      this.tileMap.width,
+      this.tileMap.height,
+      undefined,
+      undefined
+    );
+
+    if (!tiles) {
+      return;
+    }
+
+    tiles.forEach((tile) => {
+      if (
+        tile.x === 0 ||
+        tile.y === 0 ||
+        tile.x === this.tileMap.width - 1 ||
+        tile.y === this.tileMap.height - 1
+      ) {
+        tile.alpha = doDim ? 0.5 : 1;
+      }
+    });
   }
 }

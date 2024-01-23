@@ -8,7 +8,7 @@ type TileData = {
   id: number;
   tileType: TileType;
   name: string;
-  defaultTint: number;
+  defaultTintId: number;
   solid: boolean;
   deadly: boolean;
   effector?: () => void;
@@ -18,7 +18,7 @@ const tileDefaults: TileData = {
   id: 0,
   tileType: TileType.Tile,
   name: '',
-  defaultTint: 0xffffff,
+  defaultTintId: 0,
   solid: true,
   deadly: false,
 };
