@@ -21,15 +21,6 @@ const config: Phaser.Types.Core.GameConfig = {
   dom: {
     createContainer: true,
   },
-  plugins: {
-    scene: [
-      {
-        key: 'rexUI',
-        plugin: RexUIPlugin,
-        mapping: 'rexUI',
-      },
-    ],
-  },
   physics: {
     default: 'arcade',
     arcade: {

@@ -4,8 +4,7 @@
   "types": "src/index.ts",
   "dependencies": {
     "@samuel-lewis/engine": "workspace:*",
-    "phaser": "^3.70.0",
-    "phaser3-rex-plugins": "^1.60.9"
+    "phaser": "^3.70.0"
   },
   "devDependencies": {
     "@samuel-lewis/eslint-config": "workspace:*",

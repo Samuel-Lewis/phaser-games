@@ -132,7 +132,7 @@ export class EditingArea extends BaseScene {
       zoomOut: this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.E),
       minZoom: 0.5,
       maxZoom: 2,
-      acceleration: 0.06,
+      acceleration: 0.1,
       drag: 0.005,
       maxSpeed: 4.0,
     });
