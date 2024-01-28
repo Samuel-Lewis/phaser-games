@@ -18,6 +18,13 @@ export class MarcoBootScene extends BootScene {
       'marco-maker/graphics/sprites.png',
       'marco-maker/graphics/sprites.json'
     );
+    this.load.atlas('inputs', 'common/ui/inputs.png', 'common/ui/inputs.json');
+    this.load.atlas(
+      'kui',
+      'common/ui/kenney-ui.png',
+      'common/ui/kenney-ui.json'
+    );
+    this.load.atlas('icons', 'common/ui/icons.png', 'common/ui/icons.json');
   }
 
   update() {

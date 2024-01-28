@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-import { RenderLayer } from '../keys';
+import { RenderLayer } from '@samuel-lewis/engine';
 
 export class BaseScene extends Phaser.Scene {
   private labelFps!: Phaser.GameObjects.Text;
