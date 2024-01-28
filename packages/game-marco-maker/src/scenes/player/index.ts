@@ -1,9 +1,20 @@
 import { SceneKeys } from '../../keys';
+import { Level } from '../../lib/level';
 import { BaseScene } from '../base';
 
 export class PlayerScene extends BaseScene {
+  private level!: Level;
+
   constructor() {
     super(SceneKeys.Player);
+  }
+
+  init({ serialisedLevel }: { serialisedLevel?: string }) {
+    if (serialisedLevel) {
+      this.level = Level.fromSerialised(serialisedLevel);
+    } else {
+      this.level = new Level();
+    }
   }
 
   create() {

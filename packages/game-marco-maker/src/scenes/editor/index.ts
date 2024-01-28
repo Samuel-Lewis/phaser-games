@@ -1,17 +1,19 @@
 import Phaser from 'phaser';
 
-import { ButtonElement, RenderLayer } from '@samuel-lewis/engine';
+import { RenderLayer } from '@samuel-lewis/engine';
 
 import { TILE_PNG_SIZE } from '../../constants';
-import { SceneKeys } from '../../keys';
+import { EditorEvents, SceneKeys } from '../../keys';
 import { Level } from '../../lib/level';
 import { getTileData } from '../../lib/tile-data';
 import { tintData } from '../../lib/tint-data';
 import { BaseScene } from '../base';
 
+import { EditorUIScene } from './ui';
+
 enum EditingMode {
-  Create,
-  Tint,
+  Draw,
+  Paint,
   Erase,
 }
 
@@ -19,13 +21,11 @@ export class EditorScene extends BaseScene {
   private tileMap!: Phaser.Tilemaps.Tilemap;
   private cameraControls!: Phaser.Cameras.Controls.SmoothedKeyControl;
   private level!: Level;
-  private editingMode: EditingMode = EditingMode.Create;
+  private editingMode: EditingMode = EditingMode.Draw;
 
   private selectedPaintTile: number = 24;
   private selectedTintId: number = 3;
   private marker!: Phaser.GameObjects.Graphics;
-
-  private updatePool: Phaser.GameObjects.GameObject[] = [];
 
   constructor() {
     super(SceneKeys.Editor);
@@ -40,79 +40,29 @@ export class EditorScene extends BaseScene {
   }
 
   create() {
+    super.create();
+
+    this.scene.add(SceneKeys.EditorUI, EditorUIScene, true, {});
+
     this.createTileMap();
     this.createGrid();
     this.createCameraControls();
     this.createMarker();
-    this.createUI();
-
-    this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
-      if (event.key === '1') {
-        this.setModeCreate();
-      } else if (event.key === '2') {
-        this.setModeTint();
-      } else if (event.key === '3') {
-        this.setModeErase();
-      }
-    });
+    this.createEvents();
 
     return this;
   }
 
-  createUI() {
-    const { width, height } = this.sys.game.canvas;
-    const centerX = width / 2;
-    const centerY = height / 2;
-
-    const toolBrushWidth = 100;
-    const toolBrushHeight = toolBrushWidth;
-    const gridPadding = toolBrushWidth / 2;
-
-    const buttonCreate = new ButtonElement(this, 0, 0, {
-      label: '',
-      width: toolBrushWidth,
-      height: toolBrushHeight,
-      hotkey: Phaser.Input.Keyboard.KeyCodes.ONE,
-      icon: this.add.image(0, 0, 'icons', 'white/toolBrush'),
-    })
-      .onClick(() => {
-        this.setModeCreate();
-      })
-      .create()
-      .setDepth(1000);
-    const buttonPaint = new ButtonElement(this, 0, 0, {
-      label: '',
-      width: toolBrushWidth,
-      height: toolBrushHeight,
-      hotkey: Phaser.Input.Keyboard.KeyCodes.TWO,
-      icon: this.add.image(0, 0, 'icons', 'white/toolFill'),
-    })
-      .onClick(() => {
-        this.setModeTint();
-      })
-      .create();
-    const buttonErase = new ButtonElement(this, 0, 0, {
-      label: '',
-      width: toolBrushWidth,
-      height: toolBrushHeight,
-      hotkey: Phaser.Input.Keyboard.KeyCodes.THREE,
-      icon: this.add.image(0, 0, 'icons', 'white/toolEraser'),
-    })
-      .onClick(() => {
-        this.setModeErase();
-      })
-      .create();
-
-    Phaser.Actions.GridAlign([buttonCreate, buttonPaint, buttonErase], {
-      width: -1,
-      height: 1,
-      cellWidth: toolBrushWidth + gridPadding,
-      cellHeight: toolBrushHeight,
-      x: 20,
-      y: 20,
+  createEvents() {
+    this.scene.get(SceneKeys.EditorUI).events.on(EditorEvents.ToolDraw, () => {
+      this.setModeDraw();
     });
-
-    this.updatePool.push(buttonCreate, buttonPaint, buttonErase);
+    this.scene.get(SceneKeys.EditorUI).events.on(EditorEvents.ToolPaint, () => {
+      this.setModePaint();
+    });
+    this.scene.get(SceneKeys.EditorUI).events.on(EditorEvents.ToolErase, () => {
+      this.setModeErase();
+    });
   }
 
   createMarker() {
@@ -218,6 +168,7 @@ export class EditorScene extends BaseScene {
   }
 
   update(time: number, deltaTime: number) {
+    super.update(time, deltaTime);
     this.cameraControls.update(deltaTime);
 
     const worldPoint = this.input.activePointer.positionToCamera(
@@ -235,23 +186,19 @@ export class EditorScene extends BaseScene {
 
     if (this.input.manager.activePointer.isDown) {
       switch (this.editingMode) {
-        case EditingMode.Create:
-          this.createTile(pointerTileX, pointerTileY, this.selectedPaintTile);
+        case EditingMode.Draw:
+          this.drawTile(pointerTileX, pointerTileY, this.selectedPaintTile);
           break;
 
         case EditingMode.Erase:
           this.eraseTile(pointerTileX, pointerTileY);
           break;
 
-        case EditingMode.Tint:
-          this.tintTile(pointerTileX, pointerTileY, this.selectedTintId);
+        case EditingMode.Paint:
+          this.paintTile(pointerTileX, pointerTileY, this.selectedTintId);
           break;
       }
     }
-
-    this.updatePool.forEach((element) => {
-      element.update(time, deltaTime);
-    });
   }
 
   updateMarker(
@@ -275,13 +222,13 @@ export class EditorScene extends BaseScene {
     }
   }
 
-  setModeCreate() {
-    this.editingMode = EditingMode.Create;
+  setModeDraw() {
+    this.editingMode = EditingMode.Draw;
     this.dimEdges(false);
   }
 
-  setModeTint() {
-    this.editingMode = EditingMode.Tint;
+  setModePaint() {
+    this.editingMode = EditingMode.Paint;
     this.dimEdges(false);
   }
 
@@ -290,7 +237,7 @@ export class EditorScene extends BaseScene {
     this.dimEdges(true);
   }
 
-  createTile(x: number, y: number, tileId: number) {
+  drawTile(x: number, y: number, tileId: number) {
     this.tileMap.putTileAt(tileId, x, y);
   }
 
@@ -308,7 +255,7 @@ export class EditorScene extends BaseScene {
     this.tileMap.removeTileAt(x, y);
   }
 
-  tintTile(x: number, y: number, tintId: number) {
+  paintTile(x: number, y: number, tintId: number) {
     const tile = this.tileMap.getTileAt(x, y);
     const tintColour = tintData[tintId]!;
     if (!tile) {

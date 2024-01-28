@@ -103,7 +103,7 @@ export class ButtonElement extends BaseElement {
 
   update(time: number, deltaTime: number) {
     if (Phaser.Input.Keyboard.JustDown(this.keyHotkey)) {
-      this.onClickHandler();
+      this.click();
       this.setPressedState();
     }
 
@@ -139,11 +139,11 @@ export class ButtonElement extends BaseElement {
 
     this.imageButton.on('pointerdown', () => {
       this.setPressedState();
+      this.click();
     });
 
     this.imageButton.on('pointerup', () => {
       this.setHoverState();
-      this.onClickHandler();
     });
   }
 
@@ -178,6 +178,11 @@ export class ButtonElement extends BaseElement {
 
   onClick(onClickHandler: () => void) {
     this.onClickHandler = onClickHandler;
+    return this;
+  }
+
+  click() {
+    this.onClickHandler();
     return this;
   }
 }
