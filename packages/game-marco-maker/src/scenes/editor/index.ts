@@ -5,7 +5,7 @@ import { RenderLayer } from '@samuel-lewis/engine';
 import { TILE_PNG_SIZE } from '../../constants';
 import { EditorEvents, SceneKeys } from '../../keys';
 import { Level } from '../../lib/level';
-import { getTileData } from '../../lib/tile-data';
+import { getTileData, usefulTileIds } from '../../lib/tile-data';
 import { tintData } from '../../lib/tint-data';
 import { BaseScene } from '../base';
 
@@ -32,11 +32,7 @@ export class EditorScene extends BaseScene {
   }
 
   init({ serialisedLevel }: { serialisedLevel?: string }) {
-    if (serialisedLevel) {
-      this.level = Level.fromSerialised(serialisedLevel);
-    } else {
-      this.level = new Level();
-    }
+    this.level = new Level(serialisedLevel);
   }
 
   create() {
@@ -48,12 +44,12 @@ export class EditorScene extends BaseScene {
     this.createGrid();
     this.createCameraControls();
     this.createMarker();
-    this.createEvents();
+    this.createUIListeners();
 
     return this;
   }
 
-  createEvents() {
+  createUIListeners() {
     this.scene.get(SceneKeys.EditorUI).events.on(EditorEvents.ToolDraw, () => {
       this.setModeDraw();
     });
@@ -63,6 +59,12 @@ export class EditorScene extends BaseScene {
     this.scene.get(SceneKeys.EditorUI).events.on(EditorEvents.ToolErase, () => {
       this.setModeErase();
     });
+
+    this.scene
+      .get(SceneKeys.EditorUI)
+      .events.on(EditorEvents.NavigateTest, () => {
+        this.navigateTestChamber();
+      });
   }
 
   createMarker() {
@@ -100,6 +102,7 @@ export class EditorScene extends BaseScene {
       tileWidth: TILE_PNG_SIZE,
       width: this.level.width,
       height: this.level.height,
+      insertNull: true,
     });
 
     const tileset = this.tileMap.addTilesetImage(
@@ -159,12 +162,32 @@ export class EditorScene extends BaseScene {
       this.tileMap.heightInPixels +
         this.tileMap.tileHeight * 2 * MAP_SCROLL_OVERFLOW
     );
+
+    // Center camera on flag tile
+    const cx = this.tileMap.tileToWorldX(this.level.startTile.x) ?? 0;
+    const cy = this.tileMap.tileToWorldY(this.level.startTile.y) ?? 0;
+    this.cameras.main.centerOn(cx, cy);
   }
 
   saveToLevel() {
     if (!this.tileMap || !this.level) {
+      console.error('No tilemap or level');
       return;
     }
+
+    const tiles = this.tileMap.getTilesWithin(
+      0,
+      0,
+      this.tileMap.width,
+      this.tileMap.height
+    );
+
+    if (!tiles) {
+      console.error('No tiles');
+      return;
+    }
+
+    this.level.writeTiles(tiles);
   }
 
   update(time: number, deltaTime: number) {
@@ -270,9 +293,7 @@ export class EditorScene extends BaseScene {
       0,
       0,
       this.tileMap.width,
-      this.tileMap.height,
-      undefined,
-      undefined
+      this.tileMap.height
     );
 
     if (!tiles) {
@@ -288,6 +309,17 @@ export class EditorScene extends BaseScene {
       ) {
         tile.alpha = doDim ? 0.5 : 1;
       }
+    });
+  }
+
+  navigateTestChamber() {
+    this.saveToLevel();
+
+    this.scene.stop(SceneKeys.EditorUI);
+
+    this.scene.start(SceneKeys.Chamber, {
+      serialisedLevel: this.level.serialise(),
+      testMode: true,
     });
   }
 }

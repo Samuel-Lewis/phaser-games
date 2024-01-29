@@ -3,13 +3,20 @@ import Phaser from 'phaser';
 import { Game, defaultConfig } from '@samuel-lewis/engine';
 
 import { MarcoBootScene } from './scenes/boot';
+import { ChamberScene } from './scenes/chamber';
+import { ChamberUIScene } from './scenes/chamber/ui';
 import { EditorScene } from './scenes/editor';
-import { PlayerScene } from './scenes/player';
 import { StartScreenScene } from './scenes/start-screen';
 
 const config: Phaser.Types.Core.GameConfig = {
   ...defaultConfig,
-  scene: [MarcoBootScene, StartScreenScene, EditorScene, PlayerScene],
+  scene: [
+    MarcoBootScene,
+    StartScreenScene,
+    EditorScene,
+    ChamberScene,
+    ChamberUIScene,
+  ],
   pixelArt: false,
   width: 1920,
   height: 1080,
@@ -23,7 +30,8 @@ const config: Phaser.Types.Core.GameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      debug: false,
+      debug: true,
+      gravity: { y: 1000 },
     },
   },
 };

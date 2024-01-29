@@ -1,34 +1,25 @@
 import Phaser from 'phaser';
 
-export type BaseConfig = {
+export interface BaseConfig {
   width?: number;
   height?: number;
-};
+}
 
-const defaultConfig: Required<BaseConfig> = {
-  width: 160,
-  height: 40,
-};
-
-export class BaseElement extends Phaser.GameObjects.Container {
-  width: number;
-  height: number;
-
-  config: Required<BaseConfig> = defaultConfig;
+export class BaseElement
+  extends Phaser.GameObjects.Container
+  implements BaseConfig
+{
+  width: number = 160;
+  height: number = 40;
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
-    config: BaseConfig = defaultConfig
+    config: Partial<BaseConfig> = {}
   ) {
-    const combinedConfig = { ...defaultConfig, ...config };
-
     super(scene, x, y);
-
-    this.config = combinedConfig;
-    this.width = combinedConfig.width;
-    this.height = combinedConfig.height;
+    Object.assign(this, { ...this, ...config });
   }
 
   create() {

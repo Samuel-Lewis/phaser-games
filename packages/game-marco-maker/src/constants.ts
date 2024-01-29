@@ -1,5 +1,5 @@
-export const TILES_WIDE = 100;
-export const TILES_HIGH = 100;
+export const TILES_WIDE = 30;
+export const TILES_HIGH = 15;
 
 export const TILE_PNG_SIZE = 128;
 export const TILE_TILEMAP_SIZE = 64;

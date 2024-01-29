@@ -91,18 +91,22 @@ export const tileData: TileData[] = [
   {
     name: 'arrowDown',
     tileType: TileType.Tile,
+    solid: false,
   },
   {
     name: 'arrowLeft',
     tileType: TileType.Tile,
+    solid: false,
   },
   {
     name: 'arrowRight',
     tileType: TileType.Tile,
+    solid: false,
   },
   {
     name: 'arrowUp',
     tileType: TileType.Tile,
+    solid: false,
   },
   {
     name: 'belt',
@@ -191,6 +195,7 @@ export const tileData: TileData[] = [
   {
     name: 'flag',
     tileType: TileType.Tile,
+    solid: false,
   },
   {
     name: 'gem',
@@ -215,6 +220,7 @@ export const tileData: TileData[] = [
   {
     name: 'key',
     tileType: TileType.Tile,
+    solid: false,
   },
   {
     name: 'ladder',
@@ -384,4 +390,6 @@ export const usefulTileIds = {
   diagonal: findTileId('diagonal'),
   select: findTileId('select'),
   flag: findTileId('flag'),
+  chest: findTileId('chest'),
+  key: findTileId('key'),
 };
